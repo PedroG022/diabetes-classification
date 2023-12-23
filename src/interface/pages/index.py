@@ -27,7 +27,7 @@ class Index(RouteView):
             ft.dropdown.Option('Male'),
         ]
 
-        self.model: RandomForestClassifier = pickle.load(open('src/objects/model.pkl', 'rb'))
+        self.model: RandomForestClassifier = pickle.load(open('./objects/model.pkl', 'rb'))
 
     def calculate(self, gender, age, hyper, heart, smoking, bmi, hba1c, glucose):
         smoking_value = 0
@@ -49,14 +49,13 @@ class Index(RouteView):
         result = self.model.predict([predict_target])[0]
 
         dlg = ft.AlertDialog(
-            title=ft.Text(f"Result: {'Positive' if result == 0 else 'Negative'}"), on_dismiss=lambda e: print("Dialog dismissed!")
+            title=ft.Text(f"Result"),
+            content=ft.Text(f"The predicted result is: {'Positive' if result == 1 else 'Negative'}")
         )
 
         self._page.dialog = dlg
         dlg.open = True
         self._page.update()
-
-        print()
 
     def body(self):
         title = ft.Text('Diabetes Classificator', size=50, text_align=ft.TextAlign.CENTER)
@@ -76,7 +75,8 @@ class Index(RouteView):
 
         confirm.width = self._page.width
         confirm.height = 50
-        confirm.on_click = lambda _: self.calculate(gender.value, age.value, hyper.value, heart.value, smoking.value, bmi.value,
+        confirm.on_click = lambda _: self.calculate(gender.value, age.value, hyper.value, heart.value, smoking.value,
+                                                    bmi.value,
                                                     hba1c.value, glucose.value)
 
         return ft.Container(

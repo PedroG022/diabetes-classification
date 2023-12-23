@@ -1,7 +1,7 @@
 import flet as ft
 from fletrt import Router
 
-from src.interface.pages import Index
+from pages import Index
 
 
 def main(page: ft.Page):
