@@ -1,19 +1,17 @@
 # Imports
 import pandas as pd
-import numpy as np
 import pickle
 
 from sklearn.model_selection import train_test_split
 
 from sklearn.ensemble import RandomForestClassifier
 
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 
 print('> Importing data...')
 
 # Dataset importing
-dataset = pd.read_csv('dataset/diabetes_prediction_dataset.csv')
+dataset = pd.read_csv('./dataset/diabetes_prediction_dataset.csv')
 
 
 # Utilities
@@ -40,15 +38,6 @@ smoking_label = smoking_encoder.fit_transform(dataset['smoking_history'])
 
 dataset['smoking_history'] = smoking_label
 dataset.smoking_history.value_counts()
-
-# Normalization
-for column in column_names(dataset):
-    X = np.array(dataset[column]).reshape(-1, 1)
-
-    scaler = MinMaxScaler()
-    scaler.fit(X)
-
-    dataset[column] = scaler.transform(X).reshape(1, -1)[0]
 
 # ==============
 # Dataset saving
